@@ -1,0 +1,106 @@
+#include<bits/stdc++.h>
+#define Code ios_base::sync_with_stdio(false);
+#define By cin.tie(NULL);
+#define Rachit_Badoni cout.tie(NULL);
+#define ll long long
+#define yes cout<<"YES"<<endl;
+#define no cout<<"NO"<<endl;
+#define set_bits __builtin_popcountll
+#define trail_zeroes __builtin_ctz
+
+const int M=1e9+7;
+ll mod(ll x) {return ((x%M+M)%M);}
+ll add(ll a,ll b) {return mod(mod(a)+mod(b));}
+ll mul(ll a,ll b) {return mod(mod(a)*mod(b));}
+//#ignore#writing_words
+//#ceil(x);#floor(x);
+using namespace std;
+
+int power(ll a,unsigned int b,int M)//a to the power b (here b can be represented in binary and then magic begins)
+{
+    int ans=1;
+    a=a%M;//if greater or equal update it
+    if(a==0)//shows x is completely div by p(if x and p as...4 and 2 ..2 and 2..6 and 2..here )
+        return 0;//so in these case if we find the power then too it will be div completely...
+    while(b>0)
+    {
+        if(b&1)//if odd
+            ans=(ans*a)%M;
+        b=b>>1;//y=y/2;
+        a=(a*a)%M;
+    }
+    return ans;
+}
+int multiply(ll a,ll b,ll M)//for multiplying very large number in terms of modulo M(if a and b are very large that there multiplication leads to overflow then use it)
+{
+    int ans=0;
+    while(b>0)
+    {
+        if(b&1)
+            ans=(ans+a)%M;
+        a=(a+a)%M;
+        b=b>>1;
+    }
+    return ans;
+}
+int count_digit(int number) {
+   return int(log10(number) + 1);
+}
+int gcd(int a,int b)
+{
+    if(b==0)
+        return a;
+    return(b,a%b);
+}
+void solve()
+{
+    int n;
+    cin>>n;
+   float a[n][n+1];
+   for(int i=0;i<n;i++)
+   {
+       for(int j=0;j<=n;j++)
+       {
+           cin>>a[i][j];
+       }
+   }
+   for(int i=0;i<n;i++)
+   {
+       for(int j=i+1;j<n;j++)
+       {
+            if(a[i][i]==0)
+               {
+                   break;
+               }
+            float rati=a[j][i]/a[i][i];
+           for(int k=0;k<=n;k++)
+           {
+               a[j][k]=a[j][k]-rati*a[i][k];
+           }
+       }
+   }
+   float ans[n];
+   ans[n-1]=a[n-1][n]/a[n-1][n-1];//corresponding upon diagonal
+   for(int i=n-2;i>=0;--i)
+   {
+       ans[i]=a[i][n];
+       for(int j=i+1;j<n;j++)
+       {
+           ans[i]=ans[i]-ans[j]*a[i][j];
+       }
+       ans[i]=ans[i]/a[i][i];
+   }
+   for(int i=0;i<n;i++)
+    cout<<ans[i]<<endl;
+}
+int main()
+{
+                          Code By Rachit_Badoni
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        solve();
+    }
+    return 0;
+}
